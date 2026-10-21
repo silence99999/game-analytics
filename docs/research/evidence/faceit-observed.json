@@ -1,0 +1,169 @@
+{
+  "provenance": "User supplied response bodies; user confirmed HTTP 200 for profile, history, match and stats on 2026-10-19. Request timestamps and headers not supplied. Selected fields, not raw responses.",
+  "profile_evidence": "Earlier pasted profile links target player_id to SteamID64 76561199142016165; CS2 level 10 and ELO 2563. Raw profile omitted.",
+  "player_id": "cd01554f-2342-4f1f-a170-ece324793701",
+  "history_window": {
+    "start": 0,
+    "end": 5,
+    "from": 0,
+    "to": 1792428436
+  },
+  "history": [
+    {
+      "match_id": "1-f9be9eb1-2728-45df-ac64-1c22e032652e",
+      "game_id": "cs2",
+      "status": "finished",
+      "started_at": 1785861261,
+      "finished_at": 1785863717,
+      "results": {
+        "winner": "faction1",
+        "score": {
+          "faction1": 13,
+          "faction2": 11
+        }
+      }
+    },
+    {
+      "match_id": "1-57f54fb0-91eb-4c5c-b9ae-a8897e412d0b",
+      "game_id": "cs2",
+      "status": "finished",
+      "started_at": 1784897786,
+      "finished_at": 1784899823,
+      "results": {
+        "winner": "faction1",
+        "score": {
+          "faction1": 13,
+          "faction2": 7
+        }
+      }
+    },
+    {
+      "match_id": "1-f6f30caf-1c9f-466b-accf-226edb23055d",
+      "game_id": "cs2",
+      "status": "finished",
+      "started_at": 1784895104,
+      "finished_at": 1784897505,
+      "results": {
+        "winner": "faction2",
+        "score": {
+          "faction2": 13,
+          "faction1": 9
+        }
+      }
+    },
+    {
+      "match_id": "1-0bae9539-70e8-4127-8219-728f70c07bcb",
+      "game_id": "cs2",
+      "status": "finished",
+      "started_at": 1784892983,
+      "finished_at": 1784894772,
+      "results": {
+        "winner": "faction2",
+        "score": {
+          "faction2": 13,
+          "faction1": 6
+        }
+      }
+    },
+    {
+      "match_id": "1-438ab711-5673-4711-8490-ac1e3853d82f",
+      "game_id": "cs2",
+      "status": "finished",
+      "started_at": 1784889714,
+      "finished_at": 1784892277,
+      "results": {
+        "winner": "faction1",
+        "score": {
+          "faction1": 13,
+          "faction2": 10
+        }
+      }
+    }
+  ],
+  "target_present_in_all_history_matches": true,
+  "match": {
+    "match_id": "1-f9be9eb1-2728-45df-ac64-1c22e032652e",
+    "game": "cs2",
+    "status": "FINISHED",
+    "started_at": 1785861261,
+    "finished_at": 1785863717,
+    "results": {
+      "winner": "faction1",
+      "score": {
+        "faction1": 13,
+        "faction2": 11
+      }
+    }
+  },
+  "picked_maps": [
+    "de_dust2"
+  ],
+  "demo_resource_present": true,
+  "demo_extension": ".dem.zst",
+  "statistics": [
+    {
+      "match_id": "1-f9be9eb1-2728-45df-ac64-1c22e032652e",
+      "round_stats": {
+        "Region": "EU",
+        "Winner": "45012ba4-1a9e-4b77-b6e8-a28c32eab571",
+        "Map": "de_dust2",
+        "Rounds": "24",
+        "Score": "13 / 11"
+      },
+      "target_player_stats": [
+        {
+          "player_id": "cd01554f-2342-4f1f-a170-ece324793701",
+          "player_stats": {
+            "K/R Ratio": "1.29",
+            "Sniper Kills": "6",
+            "Double Kills": "5",
+            "Utility Damage": "88",
+            "Quadro Kills": "0",
+            "1v1Count": "0",
+            "Kills": "31",
+            "Match Entry Success Rate": "0.8",
+            "Utility Damage Success Rate per Match": "88",
+            "Utility Successes": "1",
+            "Match 1v1 Win Rate": "0",
+            "1v2Count": "0",
+            "Zeus Kills": "0",
+            "K/D Ratio": "1.72",
+            "ADR": "142.2",
+            "Clutch Kills": "0",
+            "Enemies Flashed per Round in a Match": "0.58",
+            "Flash Success Rate per Match": "0.71",
+            "Entry Wins": "8",
+            "Result": "0",
+            "Sniper Kill Rate per Round": "0.25",
+            "Entry Count": "10",
+            "Enemies Flashed": "14",
+            "1v2Wins": "0",
+            "First Kills": "8",
+            "Utility Usage per Round": "0.04",
+            "1v1Wins": "0",
+            "Utility Damage per Round in a Match": "3.67",
+            "Flash Count": "14",
+            "Sniper Kill Rate per Match": "0.19",
+            "MVPs": "6",
+            "Headshots %": "65",
+            "Assists": "9",
+            "Utility Success Rate per Match": "1",
+            "Utility Enemies": "1",
+            "Pistol Kills": "6",
+            "Penta Kills": "0",
+            "Deaths": "18",
+            "Headshots": "20",
+            "Triple Kills": "3",
+            "Utility Count": "1",
+            "Flashes per Round in a Match": "0.58",
+            "Match Entry Rate": "0.42",
+            "Knife Kills": "0",
+            "Flash Successes": "10",
+            "Match 1v2 Win Rate": "0",
+            "Damage": "3414"
+          }
+        }
+      ]
+    }
+  ]
+}

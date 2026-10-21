@@ -1,0 +1,20 @@
+{
+  "provenance": {
+    "source": "User-pasted GetPlayerSummaries response; HTTP 200 OK separately confirmed by user",
+    "recorded_date": "2026-10-19",
+    "request_executed_by_agent": false,
+    "original_request_time": null,
+    "raw_http_response": false,
+    "note": "Selected fields only. API key, avatars and unnecessary profile fields excluded. Does not verify match history, account ownership or private-profile behavior."
+  },
+  "endpoint": "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/",
+  "http_status_reported_by_user": 200,
+  "response": {
+    "players": [{
+      "steamid": "76561199142016165",
+      "communityvisibilitystate": 3,
+      "profilestate": 1,
+      "personaname": "silence"
+    }]
+  }
+}

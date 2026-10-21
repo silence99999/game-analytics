@@ -1,0 +1,82 @@
+{
+  "provenance": {
+    "source": "Selected fields transcribed from the user's screenshots of a local FACEIT Data API request and demoparser2 output",
+    "request_executed_by": "user",
+    "recorded_date": "2026-10-21",
+    "raw_api_response": false,
+    "api_key_included": false,
+    "note": "The match card was fetched locally by the user. This file is a curated evidence artifact, not an unmodified API response."
+  },
+  "match": {
+    "match_id": "1-0af558ec-0ebc-4636-8728-bbbdca6592bc",
+    "status": "FINISHED",
+    "map": "de_dust2",
+    "map_source": "FACEIT card voting.map.pick"
+  },
+  "participants": [
+    {
+      "faction": "faction1",
+      "nickname": "Y_U_U_I",
+      "steamid64": "76561199024716632"
+    },
+    {
+      "faction": "faction1",
+      "nickname": "Dansho3",
+      "steamid64": "76561199784502404"
+    },
+    {
+      "faction": "faction1",
+      "nickname": "BayntiX77",
+      "steamid64": "76561198774206574"
+    },
+    {
+      "faction": "faction1",
+      "nickname": "sunIes3",
+      "steamid64": "76561199753049750"
+    },
+    {
+      "faction": "faction1",
+      "nickname": "temok01",
+      "steamid64": "76561199165236300"
+    },
+    {
+      "faction": "faction2",
+      "nickname": "AGRESSOR7182",
+      "steamid64": "76561198953378586"
+    },
+    {
+      "faction": "faction2",
+      "nickname": "TabiA09",
+      "steamid64": "76561199821745183"
+    },
+    {
+      "faction": "faction2",
+      "nickname": "Ardak1993",
+      "steamid64": "76561199122752034"
+    },
+    {
+      "faction": "faction2",
+      "nickname": "Over-llord",
+      "steamid64": "76561199032173888"
+    },
+    {
+      "faction": "faction2",
+      "nickname": "Daniyarcfc",
+      "steamid64": "76561198332191799"
+    }
+  ],
+  "demo_cross_check": {
+    "parser": "demoparser2 0.42.0",
+    "demo_filename": "1-0af558ec-0ebc-4636-8728-bbbdca6592bc-1-1.dem.zst",
+    "map_from_demo_header": "de_dust2",
+    "player_count_in_card": 10,
+    "player_count_from_demo": 10,
+    "all_card_participants_found_in_demo": true,
+    "target_player": {
+      "nickname": "uzn1kkoba",
+      "steamid64": "76561199121667315",
+      "present_in_demo_and_card": false
+    },
+    "conclusion": "The FACEIT card and parsed demo have matching participant names and SteamID64 values; the target player is absent from this same-map demo."
+  }
+}

@@ -53,24 +53,29 @@ m2:{id:"m2",game:"CS2",map:"Inferno",date:"18.10.2026",score:"9:13",owner:"me",r
 m3:{id:"m3",game:"Dota 2",map:"Матч 7821…",date:"15.10.2026",score:"Победа",owner:"me",report:false},
 f1:{id:"f1",game:"CS2",map:"Ancient",date:"19.10.2026",score:"16:12",owner:"qwerty",report:false}
 }};
-var Q={used:2,limit:3};            // квота загрузок в месяц
+var Q={used:2,limit:3,reserved:0};var JOB=null;            // квота загрузок в месяц
 var U={};                          // состояние загрузки по матчу: idle|processing|done|mismatch|foreign|error
 var P={};                          // прогресс обработки
 var emptyHist=false,noResult=false;
 var $=function(s){return document.querySelector(s)};
 function tag(g){return '<span class="tag">'+g+'</span>'}
-function matchRow(m,who){return '<div class="item"><div><a class="l" href="#/match/'+m.id+'">'+m.map+'</a> '+tag(m.game)+'<div class="sm mu">'+m.date+' · '+m.score+(m.report?' · есть разбор':'')+'</div></div><a class="l sm" href="#/match/'+m.id+'">Открыть карточку →</a></div>'}
+function matchRow(m,who){return '<div class="item"><div><a class="l" href="#/match/'+m.id+'">'+m.map+'</a> '+tag(m.game)+'<div class="sm mu">'+m.date+' · '+m.score+(m.report&&m.owner==='me'?' · есть разбор':'')+'</div></div><a class="l sm" href="#/match/'+m.id+'">Открыть карточку →</a></div>'}
 function nav(){var r=location.hash.split('/')[1]||'search';var items=[['search','Поиск'],['history','Моя история'],['analysis','Мой разбор'],['profile','Мой профиль']];
 $('#nav').innerHTML=items.map(function(i){var on=(r===i[0]||(r==='match'&&i[0]==='history'));return '<a href="#/'+i[0]+(i[0]==='profile'?'/me':'')+'" class="'+(on?'on':'')+'">'+i[1]+'</a>'}).join('')}
 function vSearch(){
 var res=noResult?'<div class="empty">По запросу «zzz» никого не найдено.<br>Проверьте ник или ID. Профиль появится, только если игрока уже разбирали.</div>':
 '<div class="item"><div><a class="l" href="#/profile/qwerty">Qwerty_77</a> '+tag('CS2')+'<div class="sm mu">Публичный профиль · 14 матчей</div></div><a class="l sm" href="#/profile/qwerty">Открыть →</a></div><div class="item"><div><a class="l" href="#/profile/me">you_cs2 (это вы)</a> '+tag('CS2')+tag('Dota 2')+'<div class="sm mu">Ваш профиль</div></div><a class="l sm" href="#/profile/me">Открыть →</a></div>';
 return '<h1>Поиск игрока</h1><div class="card"><div class="row"><input id="q" placeholder="Ник или ID игрока" value="'+(noResult?'zzz':'qw')+'" style="flex:1;min-width:160px"><select><option>CS2</option><option>Dota 2</option></select><button class="p" onclick="noResult=false;go()">Найти</button></div></div><div class="card"><h2>Результаты</h2>'+res+'</div>'}
+function stat(v,l){return '<div class="stat"><b>'+v+'</b><span class="sm mu">'+l+'</span></div>'}
+function pubStats(f){var cs='<div class="card"><h2>CS2</h2><div class="grid">'+stat(f?14:23,'матчей в выборке')+stat(f?'57%':'61%','побед')+stat(f?'1,12':'1,05','K/D')+'</div><p class="sm mu">Источник: FACEIT · последние 30 дней · выборка '+(f?14:23)+' матчей</p></div>';
+var dt=f?'<div class="card"><h2>Dota 2</h2><div class="empty">Нет данных: у игрока нет доступных матчей Dota 2 (это не «0 побед»).</div></div>':'<div class="card"><h2>Dota 2</h2><div class="grid">'+stat(9,'матчей в выборке')+stat('56%','побед')+stat('3,4','KDA')+'</div><p class="sm mu">Источник: OpenDota · последние 30 дней · выборка 9 матчей</p></div>';
+return cs+dt+'<p class="sm mu">Цифры — макет. Публична только базовая игровая статистика.</p>'}
+function priv(){return '<div class="card"><h2>Личные ошибки <span class="tag">видно только вам</span></h2><div class="grid">'+stat(5,'повторяющихся типов ошибок')+stat(2,'готовых отчёта')+'</div><p class="sm"><a class="l" href="#/analysis">Открыть «Мой разбор» →</a></p></div>'}
 function vProfile(id){var f=id==='qwerty';var pr=f?D.foreign:D.me;
 var list=Object.keys(D.matches).map(function(k){return D.matches[k]}).filter(function(m){return m.owner===pr.id});
 return '<h1>'+pr.nick+' '+(f?'<span class="tag">чужой профиль</span>':'<span class="tag">ваш профиль</span>')+'</h1>'+
-(f?'<div class="msg wa">Это публичный профиль другого игрока. Виден только публичный разбор. Загрузить запись в чужой матч нельзя — загрузка доступна владельцу аккаунта внутри своей карточки матча.</div>':'')+
-'<div class="card"><div class="grid"><div class="stat"><b>'+(f?14:23)+'</b><span class="sm mu">матчей разобрано</span></div><div class="stat"><b>'+(f?'3':'5')+'</b><span class="sm mu">повторяющихся типов ошибок</span></div><div class="stat"><b>'+(f?'CS2':'CS2, Dota 2')+'</b><span class="sm mu">игры</span></div></div><p class="sm mu">Цифры — макет. Это подсказки для разбора, а не оценка игрока.</p></div>'+
+(f?'<div class="msg wa">Публичный профиль другого игрока: видна только базовая игровая статистика. Личные отчёты и записи приватны. Загрузка доступна владельцу аккаунта только внутри своей карточки матча.</div>':'')+
+pubStats(f)+(f?'':priv())+
 '<div class="card"><h2>Недавние матчи</h2>'+list.map(matchRow).join('')+'</div>'}
 function vHistory(){var list=emptyHist?[]:['m1','m2','m3'].map(function(k){return D.matches[k]});
 return '<h1>Моя история матчей</h1><div class="card">'+(list.length?list.map(matchRow).join(''):'<div class="empty">Матчей пока нет.<br>Игры появятся после подключения аккаунта. Загрузка записи доступна внутри карточки матча.</div>')+'</div>'}
@@ -80,27 +85,29 @@ var s=U[m.id]||(m.report?'done':'idle');
 var h='<h2>Разбор ошибок</h2>';
 var inst=m.game==='CS2'?'В клиенте CS2 откройте «Смотреть» → «Ваши матчи», найдите этот матч и скачайте запись (файл .dem).':'В клиенте Dota 2 откройте историю матчей, найдите этот матч и скачайте повтор (файл .dem или .dem.bz2).';
 h+='<details '+(s==='idle'?'open':'')+'><summary>Как скачать запись</summary><ol class="st"><li>'+inst+'</li><li>Если игра выдаёт ссылку на запись, вставьте её ниже — когда ссылка доступна.</li><li>Вернитесь сюда и выберите файл. Загрузка работает только из этой карточки.</li></ol><p class="sm mu">Тексты инструкции — макет: сверить с актуальным клиентом.</p></details>';
-h+='<p class="sm mu">Использовано загрузок в этом месяце: '+Q.used+' из '+Q.limit+'</p>';
+h+='<p class="sm mu">Успешных анализов в этом месяце: '+Q.used+' из '+Q.limit+(Q.reserved?' · зарезервирована 1 попытка (спишется после успеха, при ошибке вернётся)':'')+'</p>';
 if(s==='processing'){var p=P[m.id]||0;var st=['В очереди','Разбор записи','Поиск эпизодов ошибок'];h+='<div class="msg"><b>Статус: '+st[Math.min(p,2)]+'</b><div class="bar2"><i style="width:'+(p*33+17)+'%"></i></div><span class="sm mu">Можно закрыть страницу, отчёт появится в «Моём разборе».</span></div>';}
 else if(s==='done'){h+='<div class="msg ok">Разбор готов. <a class="l" href="#/report/'+m.id+'">Открыть личный отчёт →</a></div>';}
 else{
 if(s==='mismatch')h+='<div class="msg er"><b>Запись не совпадает с матчем.</b> В файле другая карта или дата. Выберите запись именно этого матча.</div>';
 if(s==='foreign')h+='<div class="msg er"><b>В записи нет вашего аккаунта.</b> Загрузить можно только матч, в котором играли вы.</div>';
-if(s==='error')h+='<div class="msg er"><b>Не удалось обработать запись.</b> Квота не списана. Попробуйте ещё раз или другой файл.</div>';
-if(Q.used>=Q.limit)h+='<div class="msg wa"><b>Квота исчерпана.</b> Лимит '+Q.limit+' загрузок в месяц. Новые загрузки откроются 1 ноября.</div>';
-h+='<div class="drop"><p class="mu">Файл записи этого матча</p><button class="p" '+(Q.used>=Q.limit?'disabled':'')+' onclick="pick(\''+m.id+'\')">Выбрать файл…</button><div id="pk" class="pick"></div></div>';}
+if(s==='error')h+='<div class="msg er"><b>Не удалось обработать запись.</b> Резерв попытки освобождён, квота не списана. Попробуйте ещё раз или другой файл.</div>';
+if(Q.used>=Q.limit)h+='<div class="msg wa"><b>Квота исчерпана.</b> Лимит '+Q.limit+' успешных анализов в месяц. Новые анализы откроются 1 ноября (UTC).</div>';
+if(JOB&&JOB!==m.id)h+='<div class="msg wa"><b>Уже идёт обработка другого матча.</b> Одновременно выполняется один анализ — дождитесь завершения.</div>';
+h+='<div class="drop"><p class="mu">Файл записи этого матча</p><button class="p" '+(Q.used+Q.reserved>=Q.limit||(JOB&&JOB!==m.id)?'disabled':'')+' onclick="pick(\''+m.id+'\')">Выбрать файл…</button><div id="pk" class="pick"></div></div>';}
 return h}
 function vMatch(id){var m=D.matches[id];var f=m.owner!=='me';
 return '<h1>'+m.map+' '+tag(m.game)+'</h1><div class="card"><div class="row sp"><div><b>'+m.score+'</b><div class="sm mu">'+m.date+(f?' · '+D.foreign.nick:' · вы')+'</div></div><a class="l sm" href="#/'+(f?'profile/qwerty':'history')+'">← Назад</a></div></div><div class="card" id="up">'+upl(m)+'</div>'}
 function pick(id){$('#pk').innerHTML='<span class="sm mu" style="width:100%">Тестовые файлы (имитация выбора):</span><button onclick="run(\''+id+'\',\'ok\')">match_ok.dem</button><button onclick="run(\''+id+'\',\'mismatch\')">other_match.dem</button><button onclick="run(\''+id+'\',\'foreign\')">not_my_account.dem</button><button onclick="run(\''+id+'\',\'error\')">broken.dem</button>'}
 function run(id,k){
-if(k!=='ok'){U[id]=k;go();return}
-U[id]='processing';P[id]=0;Q.used++;go();
-var t=setInterval(function(){P[id]++;if(P[id]>=3){clearInterval(t);U[id]='done';D.matches[id].report=true}if(location.hash==='#/match/'+id)go()},1300)}
+if(k==='mismatch'||k==='foreign'){U[id]=k;go();return}
+if(JOB||Q.used+Q.reserved>=Q.limit)return;
+U[id]='processing';P[id]=0;JOB=id;Q.reserved=1;go();
+var t=setInterval(function(){P[id]++;if(k==='error'&&P[id]>=2){clearInterval(t);U[id]='error';Q.reserved=0;JOB=null}else if(P[id]>=3){clearInterval(t);U[id]='done';D.matches[id].report=true;Q.used++;Q.reserved=0;JOB=null}if(location.hash==='#/match/'+id)go()},1300)}
 function vAnalysis(){var l=['m2','m1','m3'].map(function(k){return D.matches[k]}).filter(function(m){return m.report||U[m.id]==='done'});
 return '<h1>Мой разбор</h1><div class="card">'+(l.length?l.map(function(m){return '<div class="item"><div><a class="l" href="#/report/'+m.id+'">'+m.map+'</a> '+tag(m.game)+'<div class="sm mu">'+m.date+' · найдено эпизодов: 3</div></div><a class="l sm" href="#/report/'+m.id+'">Отчёт →</a></div>'}).join(''):'<div class="empty">Отчётов пока нет.<br>Откройте свой матч в истории и загрузите запись внутри его карточки.</div>')+'</div>'}
 function vReport(id){var m=D.matches[id];
-var eps=[['Позиция без разведки','Раунд 7, 0:42','Игрок вошёл на «A» без флеш-гранаты и без информации от союзников; смерть через 3 с. Повторилось в раундах 9 и 14.','Средняя'],['Неиспользованная утилита','Раунд 11, 1:20','К концу раунда в инвентаре остались дымовая и осколочная гранаты, раунд проигран.','Высокая'],['Длительная стойка на открытой линии','Раунд 15, 0:55','Игрок 6 с стоял на открытой линии огня после первого выстрела; получил урон от двух противников.','Низкая']];
+var eps=m.game==='Dota 2'?[['Смерть вне зоны обзора','Минута 14:20','Герой ушёл в лес на стороне противника без варда; убит за 4 с, ближайший союзник находился далеко.','Средняя'],['Неиспользованные способности','Минута 22:05','В командной драке герой погиб, не использовав 2 из 4 готовых способностей.','Высокая'],['Долгое накопление золота','Минута 18:30–20:00','Около 90 с держал 3 400 золота без покупки при потере башни.','Низкая']]:[['Позиция без разведки','Раунд 7, 0:42','Игрок вошёл на «A» без флеш-гранаты и без информации от союзников; смерть через 3 с. Повторилось в раундах 9 и 14.','Средняя'],['Неиспользованная утилита','Раунд 11, 1:20','К концу раунда в инвентаре остались дымовая и осколочная гранаты, раунд проигран.','Высокая'],['Длительная стойка на открытой линии','Раунд 15, 0:55','Игрок 6 с стоял на открытой линии огня после первого выстрела; получил урон от двух противников.','Низкая']];
 return '<h1>Личный отчёт: '+m.map+'</h1><div class="msg wa">Это подсказки для разбора, не вердикт. У каждого эпизода указаны тип, время и наблюдаемые признаки. Ложный сигнал возможен.</div>'+eps.map(function(e,i){return '<div class="card"><div class="ep"><b>'+e[0]+'</b> <span class="tag">'+e[1]+'</span><p style="margin:6px 0">'+e[2]+'</p><span class="sm mu">Надёжность сигнала: '+e[3]+'</span><div class="pick"><button onclick="this.textContent=\'Спасибо, учтём\';this.disabled=true">Это не ошибка</button><button onclick="this.textContent=\'Сохранено\';this.disabled=true">Полезно</button></div></div></div>'}).join('')+'<a class="l" href="#/analysis">← К списку отчётов</a>'}
 function go(){nav();var h=location.hash||'#/search';var p=h.split('/');var r=p[1];var a=$('#app');
 if(r==='search')a.innerHTML=vSearch();
@@ -111,9 +118,9 @@ else if(r==='analysis')a.innerHTML=vAnalysis();
 else if(r==='report')a.innerHTML=vReport(p[2]||'m2');
 else a.innerHTML='<div class="card empty">Страница не найдена. <a class="l" href="#/search">К поиску</a></div>'}
 $('#sc').onchange=function(e){var v=e.target.value;emptyHist=false;noResult=false;
-if(v==='own'){Q.used=2;U.m1='idle';location.hash='#/match/m1'}
+if(v==='own'){Q.used=2;Q.reserved=0;JOB=null;U.m1='idle';location.hash='#/match/m1'}
 if(v==='foreign'){location.hash='#/profile/qwerty'}
-if(v==='quota'){Q.used=3;U.m1='idle';location.hash='#/match/m1'}
+if(v==='quota'){Q.used=3;Q.reserved=0;JOB=null;U.m1='idle';location.hash='#/match/m1'}
 if(v==='empty'){emptyHist=true;location.hash='#/history'}
 if(v==='noresult'){noResult=true;location.hash='#/search'}
 go()};

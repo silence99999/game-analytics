@@ -33,5 +33,3 @@ GameAnalytics · SE-2431 · 23.10.2026
 **YouTrack:** [GA-57](https://gameanalytics-se2431.youtrack.cloud/issue/GA-57), [GA-3](https://gameanalytics-se2431.youtrack.cloud/issue/GA-3), [GA-52](https://gameanalytics-se2431.youtrack.cloud/issue/GA-52), [GA-53](https://gameanalytics-se2431.youtrack.cloud/issue/GA-53).
 
 **PR:** [#2](https://github.com/silence99999/game-analytics/pull/2), [#3](https://github.com/silence99999/game-analytics/pull/3), [#10](https://github.com/silence99999/game-analytics/pull/10), [#12](https://github.com/silence99999/game-analytics/pull/12).
-
-GA-49 не включена в выполненные исследования: подготовлены только шаблон и синтетические примеры, реальных интервью нет.

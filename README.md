@@ -16,7 +16,20 @@
 
 Репозиторий находится на этапе проектирования. Документы добавляются через PR; наличие документа не означает завершение реализации или проверки интеграции.
 
-## Структура репозитория
+## Материалы первой сдачи
+
+- [Опись пакета, ограничения и порядок фиксации версии](docs/submission/prob-period-1-checklist.md).
+- [Вклады участников и ссылки на PR](docs/submission/team-contributions.md).
+- [Project Proposal](docs/proposal/project-proposal.md) и [требования MVP](docs/requirements/mvp.md).
+- [Источники данных](docs/research/data-sources.md), [исследование демок](docs/research/demo-match-identification.md), [аналоги](docs/research/competitor-analysis.md), [литература](docs/literature/review.md).
+- [Выбор технологий](docs/architecture/technology-decisions.md), [архитектура и схемы](docs/architecture/service-contracts.md).
+- [Прототип интерфейса](docs/prototype/README.md): скачать репозиторий и открыть `docs/prototype/index.html` в браузере; backend не требуется.
+- [План тестирования](docs/testing/ga-52-test-plan.md), [этапы и риски](docs/planning/ga-53-roadmap-risks.md).
+- [PDF доски и задач YouTrack](docs/submission/GameAnalytics-YouTrack-prob-period-1.pdf).
+
+Реальные интервью и отзыв руководителя не представлены. Синтетические примеры не засчитываются как пользовательское исследование. Подробнее - в описи пакета.
+
+## Каталоги реализации
 
 - `services/` - будущие сервисы backend и обработки данных.
 - `frontend/` - пользовательский интерфейс.
